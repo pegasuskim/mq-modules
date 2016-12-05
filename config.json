@@ -1,0 +1,57 @@
+{
+    "work": {
+        "host": "amqp://admin:admin@123.140.74.242:5672/",
+        "name": "testq",
+        "port": 5672,
+        "login": "admin",
+        "password": "admin",
+        "connectionTimeout": 0,
+        "reconnect": true,
+        "authMechanism":"AMQPLAIN",
+        "vhost":"/"
+    },
+    "pubsub": {
+        "host": "amqp://admin:admin@123.140.74.242:5672/",
+        "exchanges":"test-ex",
+        "firstq":"firstq",
+        "secondq":"secondq",
+        "port": 5672,
+        "login": "admin",
+        "password": "admin",
+        "connectionTimeout": 0,
+        "reconnect": true,
+        "authMechanism":"AMQPLAIN",
+        "vhost":"/"
+    },
+    "routing": {
+        "host": "amqp://admin:admin@123.140.74.242:5672/",
+        "exchanges":"routing-ex",
+        "firstq":"dataq",
+        "secondq":"errorq",
+        "routing_key":["#","in.*", "*.data"],
+        "error_routing_key":["err.*" ,"*.war"],
+        "port": 5672,
+        "login": "admin",
+        "password": "admin",
+        "connectionTimeout": 0,
+        "reconnect": true,
+        "authMechanism":"AMQPLAIN",
+        "vhost":"/"
+    },
+    "topics": {
+        "host": "amqp://admin:admin@123.140.74.242:5672/",
+        "exchanges":"topic-ex",
+        "firstq":"dataq",
+        "secondq":"errorq",
+        "topics_key":["info"],
+        "error_key":["error" ,"warning"],
+        "port": 5672,
+        "login": "admin",
+        "password": "admin",
+        "connectionTimeout": 0,
+        "reconnect": true,
+        "authMechanism":"AMQPLAIN",
+        "vhost":"/"
+    }
+}
+
