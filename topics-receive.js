@@ -23,7 +23,7 @@ amqp.connect(config.topics.host, function(err, conn) {
 
       //ch.consume(first, function(msg) {
       ch.consume(q.queue, function(msg) {
-        console.log(" [x] Info routingKey %s: '%s'", msg.fields.routingKey, msg.content.toString());
+        console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
       }, {noAck: true});
 
     });
@@ -31,7 +31,7 @@ amqp.connect(config.topics.host, function(err, conn) {
     // queue2 create and bind queue, consume !!
     ch.assertQueue(second, {exclusive: true}, function(err, q) {
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
-
+      console.log("\n");
       var error_key = config.topics.error_key
       error_key.forEach(function(key) {
         //ch.bindQueue(q.queue, ex, key);
@@ -39,7 +39,8 @@ amqp.connect(config.topics.host, function(err, conn) {
       });
 
       ch.consume(second, function(msg) {
-        console.log(" [x] error routingKey %s: '%s'", msg.fields.routingKey, msg.content.toString());
+        console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
+        console.log("\n");
       }, {noAck: true});
     });
 

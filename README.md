@@ -6,10 +6,9 @@ vi /etc/rabbitmq/enabled_plugins
 
 enabled_plugins in file   [rabbitmq_management] .  write and ave
 
-http://localhost:55672    -> (Admin Page)
+Admin Page : http://localhost:55672
 
-#login
-guest/guest
+login :  guest / guest
 
 git clone https://github.com/pegasuskim/rabbitmq-publisher.git
 

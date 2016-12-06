@@ -54,8 +54,8 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 var strData = JSON.stringify(data);
                 var error = null;
 
-                // if( !data.method )
-                //     console.log('[%d] method : %s', process.pid, strData );
+                if( !data.method )
+                    console.log('[%d] method : %s', process.pid, strData );
 
                 channel.publish(ex, '', new Buffer(strData));
 

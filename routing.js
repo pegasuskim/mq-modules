@@ -61,6 +61,8 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 var errData = JSON.stringify({"error":"errrrrrrrrrrrrrrrrrrooooooooooorrrrrrrrrrrr"});
                 channel.publish(ex, 'error', new Buffer(errData));
 
+                console.log('[%d] method : %s', process.pid, errData );
+
                 channel.close();
                 callback( error, null );
             }
