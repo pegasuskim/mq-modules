@@ -9,7 +9,6 @@ var ex = config.routing.exchanges
 var rabbitmq = new RabbitMq({'routing-ex':config.routing});
 var testInterval = setInterval(function(){
     rabbitmq.publish(ex, input);
-    console.log("setInterval");
 },1000);
 
 /*

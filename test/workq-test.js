@@ -8,7 +8,6 @@ var rabbitmq = new RabbitMq({testq:config.work});
 
 var testInterval = setInterval(function(){
     rabbitmq.publish(config.work.name, input);
-    console.log("setInterval");
 },1000);
 
 /*

@@ -9,7 +9,6 @@ var ex = config.pubsub.exchanges
 var rabbitmq = new RabbitMq({'test-ex':config.pubsub});
 var testInterval = setInterval(function(){
     rabbitmq.publish(ex , input);
-    console.log("setInterval");
 },1000);
 
 /*

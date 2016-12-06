@@ -9,5 +9,12 @@ var ex = config.topics.exchanges
 var rabbitmq = new RabbitMq({'topic-ex':config.topics});
 var testInterval = setInterval(function(){
     rabbitmq.publish(ex, input);
-    console.log("setInterval");
 },1000);
+
+/*
+// use example
+exports.create = function(input, callback) {
+    rabbitmq.publish(ex , input);
+    callback(null, {success: true});
+};
+*/
