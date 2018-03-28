@@ -130,27 +130,6 @@ function consumerStart() {
 
 function mqInitializing() {
     amqp.connect(config.topics.host, function(err, conn) {
-      var reconnectTimeout = 1000;
-      if (err) {
-        return setTimeout(function () {
-            console.log("[AMQP]", err.message);
-            console.log('now attempting reconnect ...');
-            consumerStart();
-          }, reconnectTimeout);
-      }
-      conn.on("error", function(err) {
-        if (err.message !== "Connection closing") {
-          console.log("[AMQP] conn error", err.message);
-        }
-      });
-                 
-      conn.on("close", function() {
-        console.log("[AMQP] reconnecting");
-          return setTimeout(function () {
-              console.log('now attempting reconnect ...');
-              consumerStart();
-          }, reconnectTimeout);
-      });
 
       conn.createChannel(function(err, ch) {
         var ex = config.topics.exchanges;
@@ -158,10 +137,21 @@ function mqInitializing() {
 
         var first = config.topics.firstq;
         var second = config.topics.secondq;
-
         ch.purgeQueue(first);
         ch.purgeQueue(second);
+
+        var topics_key = config.topics.topics_key        
+        topics_key.forEach(function(key) {
+          ch.unbindQueue(q.queue, ex, key);
+        });
+
+        var error_key = config.topics.error_key
+        error_key.forEach(function(key) {
+          ch.unbindQueue(q.queue, ex, key);
+        });
+    
       });
+
     });  
 }
 
