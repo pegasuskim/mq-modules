@@ -100,7 +100,7 @@ function consumerStart() {
       });*/
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {durable:false, exclusive:true}, function(err, q) {
+      ch.assertQueue(first, {durable:false, exclusive:false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -118,7 +118,7 @@ function consumerStart() {
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {durable:false, exclusive:true}, function(err, q) {
+      ch.assertQueue(second, {durable:false, exclusive:false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
