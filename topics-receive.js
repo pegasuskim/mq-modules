@@ -79,7 +79,7 @@ function consumerStart() {
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});
-      
+
       /*
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
@@ -101,10 +101,8 @@ function consumerStart() {
         }
       });*/
 
-      //ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
-      //ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
-
-      
+      ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
+      ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
