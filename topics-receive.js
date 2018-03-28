@@ -81,6 +81,9 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
 
+      ch.purgeQueue(first);
+      ch.purgeQueue(second);
+
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
@@ -88,6 +91,7 @@ function consumerStart() {
 
         topics_key.forEach(function(key) {
           //ch.bindQueue(first, ex, key);
+          ch.unbindQueue(q.queue, ex, key);
           ch.bindQueue(q.queue, ex, key);
         });
 
@@ -107,6 +111,7 @@ function consumerStart() {
         
         error_key.forEach(function(key) {
           //ch.bindQueue(q.queue, ex, key);
+          ch.unbindQueue(q.queue, ex, key);
           ch.bindQueue(q.queue, ex, key);
         });
 
