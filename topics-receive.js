@@ -55,21 +55,21 @@ function consumerStart() {
     var reconnectTimeout = 1000;
     if (err) {
       return setTimeout(function () {
-        log.error("[AMQP]", err.message);
-          log.warn('now attempting reconnect ...');
+          console.log("[AMQP]", err.message);
+          console.log('now attempting reconnect ...');
           consumerStart();
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
-        log.error("[AMQP] conn error", err.message);
+        console.log("[AMQP] conn error", err.message);
       }
     });
                
     conn.on("close", function() {
-      log.error("[AMQP] reconnecting");
+      console.log("[AMQP] reconnecting");
         return setTimeout(function () {
-            log.warn('now attempting reconnect ...');
+            console.log('now attempting reconnect ...');
             consumerStart();
         }, reconnectTimeout);
     });
