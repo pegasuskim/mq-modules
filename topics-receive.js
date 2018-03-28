@@ -95,7 +95,6 @@ function consumerStart() {
         if(err){
           console.log('Channel Closed by server...');
           ch.close();
-          consumerStart();
         }
       });
 
@@ -106,7 +105,6 @@ function consumerStart() {
         if(err){
           console.log('Channel Closed by server...');
           ch.close();
-          consumerStart();
         }
       });
 
