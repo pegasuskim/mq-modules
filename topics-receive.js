@@ -83,8 +83,8 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
 
-      ch.deleteQueue(first, {ifUnused: true, ifEmpty:true} );
-      ch.deleteQueue(second,{ifUnused: true, ifEmpty:true} );
+      ch.deleteQueue(first, {ifUnused: false, ifEmpty:false} );
+      ch.deleteQueue(second,{ifUnused: false, ifEmpty:false} );
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
