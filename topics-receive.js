@@ -75,7 +75,6 @@ function consumerStart() {
     });
 
     conn.createChannel(function(err, ch) {
-      /*
       ch.deleteQueue(first, {ifUnused: true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
@@ -95,13 +94,12 @@ function consumerStart() {
           });
         }
       });
-      */
 
-      ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
-      ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
+      //ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
+      //ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
 
-      var ex = config.topics.exchanges;
-      ch.assertExchange(ex, 'topic', {durable: false});
+      //var ex = config.topics.exchanges;
+      //ch.assertExchange(ex, 'topic', {durable: false});
 
       var first = config.topics.firstq;
       var second = config.topics.secondq;
