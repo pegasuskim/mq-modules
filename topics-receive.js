@@ -87,23 +87,21 @@ function consumerStart() {
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});      
       
-      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(first, {ifUnused:true, ifEmpty:false}, function(err, ok) {
         if(ok){
-          console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
+          console.log('%s Queue Delete...', second);
         }
         if(err){
-          console.log('%s deleteQueue reconnect...', first);
-          consumerStart();
+          console.log('Channel Closed by server...');
         }
       });
 
-      ch.deleteQueue(second, {ifUnused:true, ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(second, {ifUnused:true, ifEmpty:false}, function(err, ok) {
         if(ok){
-          console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
+          console.log('%s Queue Delete...', second);
         }      
         if(err){
-          console.log('%s deleteQueue reconnect...', second);
-          consumerStart();
+          console.log('Channel Closed by server...');
         }
       });
 
