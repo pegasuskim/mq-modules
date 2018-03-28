@@ -62,8 +62,8 @@ function consumerStart() {
             var second = config.topics.secondq;
             ch.deleteQueue(first);
             ch.deleteQueue(second);
+            consumerStart();
           });
-          consumerStart();
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
@@ -80,8 +80,9 @@ function consumerStart() {
               var second = config.topics.secondq;
               ch.deleteQueue(first);
               ch.deleteQueue(second);
-            });             
-            consumerStart();
+              consumerStart();
+            });
+            
         }, reconnectTimeout);
     });
 
@@ -89,7 +90,6 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
-
       ch.assertExchange(ex, 'topic', {durable: false});
       
       // queue1 createsecond and bind queue, consume !!
