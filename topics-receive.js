@@ -57,6 +57,12 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP ERROR]", err.message);
           console.log('AMQP ERROR now attempting reconnect ... >>>>>> ');
+          conn.createChannel(function(err, ch) {
+            var first = config.topics.firstq;
+            var second = config.topics.secondq;
+            ch.deleteQueue(first, {ifUnused:true, ifEmpty:true});
+            ch.deleteQueue(second,{ifUnused:true, ifEmpty:true});
+          });
           consumerStart();
         }, reconnectTimeout);
     }
@@ -70,6 +76,12 @@ function consumerStart() {
       console.log("[AMQP] close reconnecting");
         return setTimeout(function () {
             console.log('<<<<< AMQP Close now attempting reconnect ...');
+            conn.createChannel(function(err, ch) {
+              var first = config.topics.firstq;
+              var second = config.topics.secondq;
+              ch.deleteQueue(first, {ifUnused:true, ifEmpty:true});
+              ch.deleteQueue(second,{ifUnused:true, ifEmpty:true});
+            });             
             consumerStart();
         }, reconnectTimeout);
     });
@@ -81,9 +93,6 @@ function consumerStart() {
 
       ch.assertExchange(ex, 'topic', {durable: false});
       
-      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true});
-      ch.deleteQueue(second,{ifUnused:true, ifEmpty:true});
-
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
