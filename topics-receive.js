@@ -57,6 +57,19 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP]", err.message);
           console.log('now attempting reconnect ...');
+          if(conn){
+            conn.createChannel(function(err, ch) {              
+              var first = config.topics.firstq;
+              var second = config.topics.secondq;
+              var ex = config.topics.exchanges;
+
+              ch.assertExchange(ex, 'topic', {durable: false});
+              ch.deleteQueue(first);
+              ch.deleteQueue(second);
+
+            });
+          }
+
           consumerStart();
         }, reconnectTimeout);
     }
@@ -70,7 +83,20 @@ function consumerStart() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
             console.log('now attempting reconnect ...');
-            consumerStart();
+            if(conn){
+              conn.createChannel(function(err, ch) {              
+                var first = config.topics.firstq;
+                var second = config.topics.secondq;
+                var ex = config.topics.exchanges;
+
+                ch.assertExchange(ex, 'topic', {durable: false});
+                ch.deleteQueue(first);
+                ch.deleteQueue(second);
+                
+              });
+            }            
+
+           consumerStart();
         }, reconnectTimeout);
     });
 
@@ -86,7 +112,7 @@ function consumerStart() {
       //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {exclusive: true}, function(err, q) {
+      ch.assertQueue(first, {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -97,13 +123,14 @@ function consumerStart() {
         //ch.consume(first, function(msg) {
         ch.consume(q.queue, function(msg) {
           console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
+          //ch.reject(msg, true);
           ch.ack(msg);
         }, {noAck: false});
 
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {exclusive: true}, function(err, q) {
+      ch.assertQueue(second, {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
@@ -116,6 +143,7 @@ function consumerStart() {
           console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
           console.log("\n");
           ch.ack(msg);
+          //ch.reject(msg, true);
         }, {noAck: false});
       });
     });
