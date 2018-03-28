@@ -15,18 +15,42 @@ RabbitMQ.prototype.connect = function() {
     var self = this;
     Object.keys(self.queues).forEach(function(queueName) {
         var queue =  self.queues[queueName];
-        amqp.connect(queue.host, function(error, conn) {
+        var reconnectTimeout = 1000;
+        amqp.connect(queue.host, function(err, conn) {
+            if (err) {                
+                return setTimeout(function () {
+                    console.error("[AMQP]", err.message);
+                    console.log('now attempting reconnect ...');
+                    self.connect();
+                }, reconnectTimeout);
+            }
+           
+            conn.on("error", function(err) {
+              if (err.message !== "Connection closing") {
+                console.error("[AMQP] conn error", err.message);
+              }
+            });
+           
+            conn.on("close", function() {
+              console.error("[AMQP] reconnecting");
+              //return self.connect();
+                return setTimeout(function () {
+                    console.log('now attempting reconnect ...');
+                    self.connect();
+                }, reconnectTimeout);
+            });
+
             if(conn){
                 self.connection[queueName] = conn;
-                console.log('[%d] rabbitmq %s connect host', process.pid, queueName);
+                console.log('[%d] rabbitmq %s connect exchange', process.pid, queueName);
             }else{
-                console.log('[%s] rabbitmq connect error msg: %s', queueName, error);
+                console.log('[%s] rabbitmq connect error msg: %s', queueName, err);
             }
 
         });
     })
-
 };
+
 
 RabbitMQ.prototype.publish = function(ex, data, callback) {
     var self = this;
