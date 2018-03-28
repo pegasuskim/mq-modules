@@ -57,8 +57,7 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP]", err.message);
           console.log('now attempting reconnect ...');
-          mqInitializing();
-          //consumerStart();
+          consumerStart();
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
@@ -71,8 +70,7 @@ function consumerStart() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
             console.log('now attempting reconnect ...');
-            mqInitializing();
-            //consumerStart();
+            consumerStart();
         }, reconnectTimeout);
     });
 
@@ -81,27 +79,9 @@ function consumerStart() {
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});
-
-      /*
-      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
-        console.log('now attempting reconnectasfsafsa ...', err);
-        if(err){
-          conn.createChannel(function(err, ch) {
-            console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
-            ch.assertExchange(ex, 'topic', {durable: false});
-          });
-        }
-      });
       
-      ch.deleteQueue(second,{ifUnused:true, ifEmpty:true}, function(err) {
-        console.log('now attempting reconnectasfsafsa ...', err);
-        if(err){
-          conn.createChannel(function(err, ch) {
-            console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
-            ch.assertExchange(ex, 'topic', {durable: false});
-          });
-        }
-      });*/
+      ch.deleteQueue(first);
+      ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
@@ -154,6 +134,27 @@ function mqInitializing() {
 
         ch.deleteQueue(first);
         ch.deleteQueue(second);
+        /*
+        ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
+          console.log('now attempting reconnectasfsafsa ...', err);
+          if(err){
+            conn.createChannel(function(err, ch) {
+              console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
+              ch.assertExchange(ex, 'topic', {durable: false});
+            });
+          }
+        });
+        
+        ch.deleteQueue(second,{ifUnused:true, ifEmpty:true}, function(err) {
+          console.log('now attempting reconnectasfsafsa ...', err);
+          if(err){
+            conn.createChannel(function(err, ch) {
+              console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
+              ch.assertExchange(ex, 'topic', {durable: false});
+            });
+          }
+        });*/
+
 
         //ch.deleteQueue(first, {ifUnused:true, ifEmpty:false});
         //ch.deleteQueue(second,{ifUnused:true, ifEmpty:false});
