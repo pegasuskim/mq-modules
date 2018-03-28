@@ -62,7 +62,8 @@ function consumerStart() {
     }
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
-        console.log("[AMQP] conn error", err.message);
+        consumerStart();
+        //console.log("[AMQP] conn error", err.message);
       }
     });
 
