@@ -87,7 +87,7 @@ function consumerStart() {
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});      
       
-      ch.deleteQueue(first, {ifUnused:true, ifEmpty:false}, function(err, ok) {
+      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(ok){
           console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
         }
@@ -97,7 +97,7 @@ function consumerStart() {
         }
       });
 
-      ch.deleteQueue(second, {ifUnused:true, ifEmpty:false}, function(err, ok) {
+      ch.deleteQueue(second, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(ok){
           console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
         }      
