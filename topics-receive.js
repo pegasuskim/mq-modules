@@ -79,7 +79,8 @@ function consumerStart() {
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});
-
+      
+      /*
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
@@ -98,7 +99,7 @@ function consumerStart() {
             ch.assertExchange(ex, 'topic', {durable: false});
           });
         }
-      });
+      });*/
 
       //ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
       //ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
