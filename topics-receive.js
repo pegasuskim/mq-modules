@@ -173,8 +173,7 @@ function mqInitializing() {
           });
 */
       });
-
-      consumerStart();
+      //consumerStart();
     }
 
   });  
