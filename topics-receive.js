@@ -61,14 +61,14 @@ function consumerStart() {
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
-      //if (err.message !== "Connection closing") {
+      if (err.message !== "Connection closing") {
         console.log("[AMQP] conn error", err.message);
         return setTimeout(function () {
             console.log('now attempting reconnect ...');
             consumerStart();
-        }, reconnectTimeout);        
+        }, reconnectTimeout);
         
-      //}
+      }
 
     });
                
@@ -87,7 +87,7 @@ function consumerStart() {
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});      
       
-      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(first, {ifUnused:true, ifEmpty:false}, function(err, ok) {
         console.log('deleteQueue 111 ...', ok);
         if(err){
           console.log('deleteQueue reconnect 11111...');
@@ -95,7 +95,7 @@ function consumerStart() {
         }
       });
 
-      ch.deleteQueue(second, {ifUnused:true, ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(second, {ifUnused:true, ifEmpty:false}, function(err, ok) {
         console.log('deleteQueue 222 ...', ok);
         if(err){
           console.log('deleteQueue reconnect 222 ...');
