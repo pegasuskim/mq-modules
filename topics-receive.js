@@ -63,10 +63,9 @@ function consumerStart() {
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
         console.log("[AMQP] conn error", err.message);
-        conn.close();      
       }
     });
-                  
+
     conn.on("close", function() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
@@ -88,7 +87,6 @@ function consumerStart() {
         }
         if(err){
           console.log('Channel Closed by server...');
-          //ch.close();
         }
       });
 
@@ -98,7 +96,6 @@ function consumerStart() {
         }      
         if(err){
           console.log('Channel Closed by server...');
-          //ch.close();
         }
       });
 
