@@ -45,7 +45,7 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 });
             },
             function assertExchange(channel, callback) {
-                channel.assertExchange(ex, 'topic', {durable: true}, function(error, ok) {
+                channel.assertExchange(ex, 'topic', {durable: false}, function(error, ok) {
                     callback( error, ok, channel );
                 });
             },
