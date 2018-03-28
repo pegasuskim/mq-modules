@@ -57,15 +57,20 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP ERROR]", err.message);
           console.log('AMQP ERROR now attempting reconnect ... >>>>>> ');
-          conn.createChannel(function(err, ch) {
-            var first = config.topics.firstq;
-            var second = config.topics.secondq;
-            var ex = config.topics.exchanges;
-            ch.assertExchange(ex, 'topic', {durable: false});
-            ch.deleteQueue(first);
-            ch.deleteQueue(second);
-            consumerStart();
-          });
+
+          if(conn){
+            conn.createChannel(function(err, ch) {
+              var first = config.topics.firstq;
+              var second = config.topics.secondq;
+              var ex = config.topics.exchanges;
+              ch.assertExchange(ex, 'topic', {durable: false});
+              ch.deleteQueue(first);
+              ch.deleteQueue(second);
+              consumerStart();
+            });
+
+          }
+
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
@@ -77,16 +82,18 @@ function consumerStart() {
       console.log("[AMQP] close reconnecting");
         return setTimeout(function () {
             console.log('<<<<< AMQP Close now attempting reconnect ...');
-            conn.createChannel(function(err, ch) {
-              var first = config.topics.firstq;
-              var second = config.topics.secondq;
-              var ex = config.topics.exchanges;
-              ch.assertExchange(ex, 'topic', {durable: false});
-              ch.deleteQueue(first);
-              ch.deleteQueue(second);
-              consumerStart();
-            });
-            
+            if(conn){
+              conn.createChannel(function(err, ch) {
+                var first = config.topics.firstq;
+                var second = config.topics.secondq;
+                var ex = config.topics.exchanges;
+                ch.assertExchange(ex, 'topic', {durable: false});
+                ch.deleteQueue(first);
+                ch.deleteQueue(second);
+                consumerStart();
+              });              
+            }
+                       
         }, reconnectTimeout);
     });
 
