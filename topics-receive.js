@@ -57,19 +57,6 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP]", err.message);
           console.log('now attempting reconnect ...');
-          if(conn){
-            conn.createChannel(function(err, ch) {              
-              var first = config.topics.firstq;
-              var second = config.topics.secondq;
-              var ex = config.topics.exchanges;
-
-              ch.assertExchange(ex, 'topic', {durable: false});
-              ch.deleteQueue(first);
-              ch.deleteQueue(second);
-
-            });
-          }
-
           consumerStart();
         }, reconnectTimeout);
     }
@@ -83,20 +70,7 @@ function consumerStart() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
             console.log('now attempting reconnect ...');
-            if(conn){
-              conn.createChannel(function(err, ch) {              
-                var first = config.topics.firstq;
-                var second = config.topics.secondq;
-                var ex = config.topics.exchanges;
-
-                ch.assertExchange(ex, 'topic', {durable: false});
-                ch.deleteQueue(first);
-                ch.deleteQueue(second);
-                
-              });
-            }            
-
-           consumerStart();
+            consumerStart();
         }, reconnectTimeout);
     });
 
@@ -112,7 +86,7 @@ function consumerStart() {
       //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {exclusive: false}, function(err, q) {
+      ch.assertQueue(first, {durable: true, exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -130,7 +104,7 @@ function consumerStart() {
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {exclusive: false}, function(err, q) {
+      ch.assertQueue(second, {durable: true, exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
