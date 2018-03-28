@@ -152,8 +152,8 @@ function mqInitializing() {
         var first = config.topics.firstq;
         var second = config.topics.secondq;
 
-        ch.deleteQueue(first, {ifUnused:false, ifEmpty:false});
-        ch.deleteQueue(second,{ifUnused:false, ifEmpty:false});
+        ch.deleteQueue(first, {ifUnused:true, ifEmpty:false});
+        ch.deleteQueue(second,{ifUnused:true, ifEmpty:false});
         //ch.purgeQueue(first);
         //ch.purgeQueue(second);
 /*
