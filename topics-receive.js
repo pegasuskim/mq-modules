@@ -75,11 +75,15 @@ function consumerStart() {
     });
 
     conn.createChannel(function(err, ch) {
+      var first = config.topics.firstq;
+      var second = config.topics.secondq;
+      var ex = config.topics.exchanges;
+      ch.assertExchange(ex, 'topic', {durable: false});
+
       ch.deleteQueue(first, {ifUnused: true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
-          conn.createChannel(function(err, ch) {
-            var ex = config.topics.exchanges;
+          conn.createChannel(function(err, ch) {            
             ch.assertExchange(ex, 'topic', {durable: false});
           });
         }
@@ -88,8 +92,7 @@ function consumerStart() {
       ch.deleteQueue(second,{ifUnused: true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
-          conn.createChannel(function(err, ch) {
-            var ex = config.topics.exchanges;
+          conn.createChannel(function(err, ch) {            
             ch.assertExchange(ex, 'topic', {durable: false});
           });
         }
@@ -98,12 +101,7 @@ function consumerStart() {
       //ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
       //ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
 
-      //var ex = config.topics.exchanges;
-      //ch.assertExchange(ex, 'topic', {durable: false});
-
-      var first = config.topics.firstq;
-      var second = config.topics.secondq;
-
+      
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
