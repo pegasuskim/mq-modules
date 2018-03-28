@@ -84,7 +84,7 @@ function consumerStart() {
       
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(ok){
-          console.log('%s Queue Delete...', second);
+          console.log('%s Queue reset...', second);
         }
         if(err){
           console.log('Channel Closed by server...');
@@ -93,7 +93,7 @@ function consumerStart() {
 
       ch.deleteQueue(second, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(ok){
-          console.log('%s Queue Delete...', second);
+          console.log('%s Queue reset...', second);
         }      
         if(err){
           console.log('Channel Closed by server...');
