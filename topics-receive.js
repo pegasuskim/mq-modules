@@ -75,15 +75,14 @@ function consumerStart() {
     });
 
     conn.createChannel(function(err, ch) {
-
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
 
       ch.assertExchange(ex, 'topic', {durable: false});
       
-      ch.deleteQueue(first);
-      ch.deleteQueue(second);
+      ch.deleteQueue(first, {ifEmpty:true});
+      ch.deleteQueue(second,{ifEmpty:true});
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
