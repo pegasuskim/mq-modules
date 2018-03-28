@@ -63,16 +63,10 @@ function consumerStart() {
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
         console.log("[AMQP] conn error", err.message);
-        conn.close();
-        return setTimeout(function () {
-            console.log('now attempting reconnect ...');
-            consumerStart();
-        }, reconnectTimeout);
-        
+        conn.close();      
       }
-
     });
-               
+                  
     conn.on("close", function() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
