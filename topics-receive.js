@@ -90,7 +90,7 @@ function consumerStart() {
         var topics_key = config.topics.topics_key
 
         topics_key.forEach(function(key) {
-          ch.bindQueue(q.queue, ex, key);
+          ch.bindQueue(first, ex, key);
         });
 
         //ch.consume(first, function(msg) {
@@ -108,7 +108,7 @@ function consumerStart() {
         var error_key = config.topics.error_key
         
         error_key.forEach(function(key) {
-          ch.bindQueue(q.queue, ex, key);
+          ch.bindQueue(second, ex, key);
         });
 
         ch.consume(second, function(msg) {
