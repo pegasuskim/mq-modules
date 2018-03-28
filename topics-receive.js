@@ -55,8 +55,8 @@ function consumerStart() {
     var reconnectTimeout = 1000;
     if (err) {
       return setTimeout(function () {
-          console.log("[AMQP]", err.message);
-          console.log('now attempting reconnect ...');
+          console.log("[AMQP ERROR]", err.message);
+          console.log('AMQP ERROR now attempting reconnect ... >>>>>> ');
           consumerStart();
         }, reconnectTimeout);
     }
@@ -67,9 +67,9 @@ function consumerStart() {
     });
                
     conn.on("close", function() {
-      console.log("[AMQP] reconnecting");
+      console.log("[AMQP] close reconnecting");
         return setTimeout(function () {
-            console.log('now attempting reconnect ...');
+            console.log('<<<<< AMQP Close now attempting reconnect ...');
             consumerStart();
         }, reconnectTimeout);
     });
