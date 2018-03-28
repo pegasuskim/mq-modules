@@ -65,7 +65,8 @@ function consumerStart() {
         console.log("[AMQP] conn error", err.message);
         conn.close();
         return setTimeout(function () {
-            console.log('now attempting reconnect ...');            
+            console.log('now attempting reconnect ...');
+            consumerStart();
         }, reconnectTimeout);
         
       }
