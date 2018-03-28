@@ -103,9 +103,10 @@ function consumerStart() {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
+        
         error_key.forEach(function(key) {
           //ch.bindQueue(q.queue, ex, key);
-          ch.bindQueue(second, ex, key);
+          ch.bindQueue(q.queue, ex, key);
         });
 
         ch.consume(q.queue, function(msg) {
