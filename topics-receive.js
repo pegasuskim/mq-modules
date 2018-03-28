@@ -81,14 +81,16 @@ function consumerStart() {
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});      
       
-      ch.deleteQueue(first, {ifUnused:true,ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(err){
+          console.log('deleteQueue reconnect ...');
           consumerStart();
         }
       });
 
-      ch.deleteQueue(second, {ifUnused:true,ifEmpty:true}, function(err, ok) {
+      ch.deleteQueue(second, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(err){
+          console.log('deleteQueue reconnect ...');
           consumerStart();
         }
       });
