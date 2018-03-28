@@ -101,8 +101,8 @@ function consumerStart() {
         }
       });*/
 
-      ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
-      ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
+      ch.deleteQueue(first, {ifUnused: false, ifEmpty:true});
+      ch.deleteQueue(second,{ifUnused: false, ifEmpty:true});
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
