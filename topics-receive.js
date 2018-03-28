@@ -75,6 +75,7 @@ function consumerStart() {
     });
 
     conn.createChannel(function(err, ch) {
+
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
@@ -85,7 +86,7 @@ function consumerStart() {
       //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {exclusive: true}, function(err, q) {
+      ch.assertQueue('', {exclusive: true}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -102,7 +103,7 @@ function consumerStart() {
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {exclusive: true}, function(err, q) {
+      ch.assertQueue('', {exclusive: true}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
@@ -119,64 +120,6 @@ function consumerStart() {
       });
     });
   });
-}
-
-
-
-function mqInitializing() {
-  amqp.connect(config.topics.host, function(err, conn) {
-    if(conn){
-      conn.createChannel(function(err, ch) {
-        var ex = config.topics.exchanges;
-        ch.assertExchange(ex, 'topic', {durable: false});
-
-        var first = config.topics.firstq;
-        var second = config.topics.secondq;
-
-        ch.deleteQueue(first);
-        ch.deleteQueue(second);
-        /*
-        ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
-          console.log('now attempting reconnectasfsafsa ...', err);
-          if(err){
-            conn.createChannel(function(err, ch) {
-              console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
-              ch.assertExchange(ex, 'topic', {durable: false});
-            });
-          }
-        });
-        
-        ch.deleteQueue(second,{ifUnused:true, ifEmpty:true}, function(err) {
-          console.log('now attempting reconnectasfsafsa ...', err);
-          if(err){
-            conn.createChannel(function(err, ch) {
-              console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
-              ch.assertExchange(ex, 'topic', {durable: false});
-            });
-          }
-        });*/
-
-
-        //ch.deleteQueue(first, {ifUnused:true, ifEmpty:false});
-        //ch.deleteQueue(second,{ifUnused:true, ifEmpty:false});
-        //ch.purgeQueue(first);
-        //ch.purgeQueue(second);
-/*
-        var topics_key = config.topics.topics_key
-        topics_key.forEach(function(key) {
-          ch.unbindQueue(first, ex, key);
-        });
-
-        var error_key = config.topics.error_key
-        error_key.forEach(function(key) {
-          ch.unbindQueue(second, ex, key);
-          });
-*/
-      });
-      //consumerStart();
-    }
-
-  });  
 }
 
 
