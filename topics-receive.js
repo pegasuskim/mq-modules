@@ -83,7 +83,8 @@ function consumerStart() {
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
-          conn.createChannel(function(err, ch) {            
+          conn.createChannel(function(err, ch) {
+            console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
             ch.assertExchange(ex, 'topic', {durable: false});
           });
         }
@@ -92,7 +93,8 @@ function consumerStart() {
       ch.deleteQueue(second,{ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
-          conn.createChannel(function(err, ch) {            
+          conn.createChannel(function(err, ch) {
+            console.log('qqqqqqnow attempting reconnectasfsafsa ...', err);
             ch.assertExchange(ex, 'topic', {durable: false});
           });
         }
