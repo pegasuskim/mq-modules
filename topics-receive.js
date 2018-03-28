@@ -162,7 +162,7 @@ function mqInitializing() {
         ch.purgeQueue(first);
         ch.purgeQueue(second);
       });
-
+    });  
 }
 
 consumerStart();
