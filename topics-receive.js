@@ -55,54 +55,36 @@ function consumerStart() {
     var reconnectTimeout = 1000;
     if (err) {
       return setTimeout(function () {
-          console.log("[AMQP ERROR]", err.message);
-          console.log('AMQP ERROR now attempting reconnect ... >>>>>> ');
-
-          if(conn){
-            conn.createChannel(function(err, ch) {
-              var first = config.topics.firstq;
-              var second = config.topics.secondq;
-              var ex = config.topics.exchanges;
-              ch.assertExchange(ex, 'topic', {durable: false});
-              ch.deleteQueue(first);
-              ch.deleteQueue(second);
-              consumerStart();
-            });
-
-          }
-
+          console.log("[AMQP]", err.message);
+          console.log('now attempting reconnect ...');
+          consumerStart();
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
         console.log("[AMQP] conn error", err.message);
       }
-    });     
+    });
+               
     conn.on("close", function() {
-      console.log("[AMQP] close reconnecting");
+      console.log("[AMQP] reconnecting");
         return setTimeout(function () {
-            console.log('<<<<< AMQP Close now attempting reconnect ...');
-            if(conn){
-              conn.createChannel(function(err, ch) {
-                var first = config.topics.firstq;
-                var second = config.topics.secondq;
-                var ex = config.topics.exchanges;
-                ch.assertExchange(ex, 'topic', {durable: false});
-                ch.deleteQueue(first);
-                ch.deleteQueue(second);
-                consumerStart();
-              });              
-            }
-                       
+            console.log('now attempting reconnect ...');
+            consumerStart();
         }, reconnectTimeout);
     });
 
     conn.createChannel(function(err, ch) {
+
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
+
       ch.assertExchange(ex, 'topic', {durable: false});
       
+      //ch.deleteQueue(first);
+      //ch.deleteQueue(second);
+
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
