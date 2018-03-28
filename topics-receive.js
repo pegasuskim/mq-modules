@@ -82,8 +82,8 @@ function consumerStart() {
 
       ch.assertExchange(ex, 'topic', {durable: false});
       
-      ch.deleteQueue(first);
-      ch.deleteQueue(second);
+      //ch.deleteQueue(first);
+      //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: true}, function(err, q) {
