@@ -82,7 +82,7 @@ function consumerStart() {
       var second = config.topics.secondq;
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue('', {exclusive: true}, function(err, q) {
+      ch.assertQueue('', {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -94,12 +94,13 @@ function consumerStart() {
         //ch.consume(first, function(msg) {
         ch.consume(q.queue, function(msg) {
           console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
-        }, {noAck: true});
+          ch.ack(msg);
+        }, {noAck: false});
 
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue('', {exclusive: true}, function(err, q) {
+      ch.assertQueue('', {exclusive: false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
@@ -112,7 +113,8 @@ function consumerStart() {
         ch.consume(q.queue, function(msg) {
           console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
           console.log("\n");
-        }, {noAck: true});
+          ch.ack(msg);
+        }, {noAck: false});
       });
     });
   });
