@@ -139,8 +139,8 @@ function mqInitializing() {
         var first = config.topics.firstq;
         var second = config.topics.secondq;
 
-        ch.deleteQueue(first, {ifUnused: true, ifEmpty:true});
-        ch.deleteQueue(second,{ifUnused: true, ifEmpty:true});
+        ch.deleteQueue(first, {ifUnused: true, ifEmpty:true} );
+        ch.deleteQueue(second,{ifUnused: true, ifEmpty:true} );
         //ch.purgeQueue(first);
         //ch.purgeQueue(second);
 /*
@@ -153,8 +153,9 @@ function mqInitializing() {
         error_key.forEach(function(key) {
           ch.unbindQueue(second, ex, key);
           });
-      });
 */
+      });
+
       consumerStart();
     }
 
