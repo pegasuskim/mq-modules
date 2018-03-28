@@ -62,8 +62,7 @@ function consumerStart() {
     }
     conn.on("error", function(err) {
       if (err.message !== "Connection closing") {
-        consumerStart();
-        //console.log("[AMQP] conn error", err.message);
+        console.log("[AMQP] conn error", err.message);
       }
     });
 
@@ -81,14 +80,13 @@ function consumerStart() {
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});      
-      
+      /*
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err, ok) {
         if(ok){
           console.log('%s Queue reset...', second);
         }
         if(err){
           console.log('Channel Closed by server...');
-          conn.close();
         }
       });
 
@@ -99,10 +97,10 @@ function consumerStart() {
         if(err){
           console.log('Channel Closed by server...');
         }
-      });
+      });*/
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {durable:false, exclusive:false}, function(err, q) {
+      ch.assertQueue(first, {durable:false, exclusive:true}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -120,7 +118,7 @@ function consumerStart() {
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {durable:false, exclusive:false}, function(err, q) {
+      ch.assertQueue(second, {durable:false, exclusive:true}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
