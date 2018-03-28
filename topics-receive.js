@@ -88,23 +88,24 @@ function consumerStart() {
       ch.assertExchange(ex, 'topic', {durable: false});      
       
       ch.deleteQueue(first, {ifUnused:true, ifEmpty:false}, function(err, ok) {
-        console.log('deleteQueue 111 ...', ok);
+        if(ok){
+          console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
+        }
         if(err){
-          console.log('deleteQueue reconnect 11111...');
+          console.log('%s deleteQueue reconnect...', first);
           consumerStart();
         }
       });
 
       ch.deleteQueue(second, {ifUnused:true, ifEmpty:false}, function(err, ok) {
-        console.log('deleteQueue 222 ...', ok);
+        if(ok){
+          console.log('%s Queue Delete, magCount: %s ...', second, ok.messageCount);
+        }      
         if(err){
-          console.log('deleteQueue reconnect 222 ...');
+          console.log('%s deleteQueue reconnect...', second);
           consumerStart();
         }
       });
-
-      //ch.deleteQueue(first);
-      //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {durable:false, exclusive:false}, function(err, q) {
