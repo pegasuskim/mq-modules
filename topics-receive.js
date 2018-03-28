@@ -57,8 +57,7 @@ function consumerStart() {
       return setTimeout(function () {
           console.log("[AMQP]", err.message);
           console.log('now attempting reconnect ...');
-          mqInitializing();
-          //consumerStart();
+          consumerStart();
         }, reconnectTimeout);
     }
     conn.on("error", function(err) {
@@ -71,8 +70,7 @@ function consumerStart() {
       console.log("[AMQP] reconnecting");
         return setTimeout(function () {
             console.log('now attempting reconnect ...');
-            mqInitializing();
-            //consumerStart();
+            consumerStart();
         }, reconnectTimeout);
     });
 
@@ -83,8 +81,8 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
 
-      ch.deleteQueue(first, {ifUnused: false, ifEmpty:false} );
-      ch.deleteQueue(second,{ifUnused: false, ifEmpty:false} );
+      ch.deleteQueue(first, {ifUnused: true, ifEmpty:true} );
+      ch.deleteQueue(second,{ifUnused: true, ifEmpty:true} );
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
@@ -122,6 +120,7 @@ function consumerStart() {
     });
   });
 }
+
 
 
 function mqInitializing() {
