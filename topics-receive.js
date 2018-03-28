@@ -60,8 +60,8 @@ function consumerStart() {
           conn.createChannel(function(err, ch) {
             var first = config.topics.firstq;
             var second = config.topics.secondq;
-            ch.deleteQueue(first, {ifUnused:true, ifEmpty:true});
-            ch.deleteQueue(second,{ifUnused:true, ifEmpty:true});
+            ch.deleteQueue(first);
+            ch.deleteQueue(second);
           });
           consumerStart();
         }, reconnectTimeout);
@@ -70,8 +70,7 @@ function consumerStart() {
       if (err.message !== "Connection closing") {
         console.log("[AMQP] conn error", err.message);
       }
-    });
-               
+    });     
     conn.on("close", function() {
       console.log("[AMQP] close reconnecting");
         return setTimeout(function () {
@@ -79,8 +78,8 @@ function consumerStart() {
             conn.createChannel(function(err, ch) {
               var first = config.topics.firstq;
               var second = config.topics.secondq;
-              ch.deleteQueue(first, {ifUnused:true, ifEmpty:true});
-              ch.deleteQueue(second,{ifUnused:true, ifEmpty:true});
+              ch.deleteQueue(first);
+              ch.deleteQueue(second);
             });             
             consumerStart();
         }, reconnectTimeout);
