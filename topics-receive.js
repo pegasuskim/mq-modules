@@ -76,7 +76,7 @@ function consumerStart() {
 
     conn.createChannel(function(err, ch) {
       var ex = config.topics.exchanges;
-      ch.assertExchange(ex, 'topic', {durable: false});
+      ch.assertExchange(ex, 'topic', {durable: true});
       var first = config.topics.firstq;
       var second = config.topics.secondq;
 

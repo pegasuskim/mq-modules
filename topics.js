@@ -45,7 +45,7 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 });
             },
             function assertExchange(channel, callback) {
-                channel.assertExchange(ex, 'topic', {durable: false}, function(error, ok) {
+                channel.assertExchange(ex, 'topic', {durable: true}, function(error, ok) {
                     callback( error, ok, channel );
                 });
             },
@@ -57,17 +57,17 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 //     console.log('[%d] method : %s', process.pid, strData );
 
                 var key = "info"
-                channel.publish(ex, key, new Buffer(strData));
+                channel.publish(ex, key, new Buffer(strData), {persistent: true});
                 console.log("[x] info Sent %s:'%s'", key, strData);
 
                 key = "warning"
                 var warningData = JSON.stringify({"warning":"wwwwwwwwwwwarnnnnnnnnnnnninggggggggggggg"});
-                channel.publish(ex, key, new Buffer(warningData));
+                channel.publish(ex, key, new Buffer(warningData), {persistent: true});
                 console.log("[x] info Sent %s:'%s'", key, warningData);
 
                 key = "error"
                 var errData = JSON.stringify({"error":"errrrrrrrrrrrrrrrrrrooooooooooorrrrrrrrrrrr"});
-                channel.publish(ex, key, new Buffer(errData));
+                channel.publish(ex, key, new Buffer(errData), {persistent: true});
                 console.log("[x] error Sent %s:'%s'", key, errData);
 
                 channel.close();
