@@ -80,7 +80,7 @@ function consumerStart() {
       var ex = config.topics.exchanges;
       ch.assertExchange(ex, 'topic', {durable: false});
 
-      ch.deleteQueue(first, {ifUnused: false, ifEmpty:true}, function(err) {
+      ch.deleteQueue(first, {ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
           conn.createChannel(function(err, ch) {            
@@ -89,7 +89,7 @@ function consumerStart() {
         }
       });
       
-      ch.deleteQueue(second,{ifUnused: false, ifEmpty:true}, function(err) {
+      ch.deleteQueue(second,{ifUnused:true, ifEmpty:true}, function(err) {
         console.log('now attempting reconnectasfsafsa ...', err);
         if(err){
           conn.createChannel(function(err, ch) {            
