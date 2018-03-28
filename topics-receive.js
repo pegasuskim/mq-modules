@@ -98,7 +98,6 @@ function consumerStart() {
         }      
         if(err){
           console.log('Channel Closed by server...');
-          conn.close();
         }
       });
 
