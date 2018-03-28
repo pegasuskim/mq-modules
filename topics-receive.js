@@ -86,7 +86,7 @@ function consumerStart() {
 
       // queue1 createsecond and bind queue, consume !!
       ch.assertQueue(first, {exclusive: false}, function(err, q) {
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
+        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", first);
         var topics_key = config.topics.topics_key
 
         topics_key.forEach(function(key) {
@@ -94,8 +94,8 @@ function consumerStart() {
         });
 
         //ch.consume(first, function(msg) {
-        ch.consume(q.queue, function(msg) {
-          console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
+        ch.consume(first, function(msg) {
+          console.log(" [x] topics Key %s %s: '%s'", first, msg.fields.routingKey, msg.content.toString());
           ch.ack(msg);
         }, {noAck: false});
 
@@ -103,7 +103,7 @@ function consumerStart() {
 
       // queue2 create and bind queue, consume !!
       ch.assertQueue(second, {exclusive: false}, function(err, q) {
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
+        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", second);
         console.log("\n");
         var error_key = config.topics.error_key
         
@@ -111,8 +111,8 @@ function consumerStart() {
           ch.bindQueue(q.queue, ex, key);
         });
 
-        ch.consume(q.queue, function(msg) {
-          console.log(" [x] topics Key %s %s: '%s'", q.queue, msg.fields.routingKey, msg.content.toString());
+        ch.consume(second, function(msg) {
+          console.log(" [x] topics Key %s %s: '%s'", second, msg.fields.routingKey, msg.content.toString());
           console.log("\n");
           ch.ack(msg);
         }, {noAck: false});
