@@ -79,13 +79,25 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
-
       ch.assertExchange(ex, 'topic', {durable: false});      
-      ch.deleteQueue(first);
-      ch.deleteQueue(second);
+      
+      ch.deleteQueue(first, {ifUnused:true,ifEmpty:true}, function(err, ok) {
+        if(err){
+          consumerStart();
+        }
+      });
+
+      ch.deleteQueue(second, {ifUnused:true,ifEmpty:true}, function(err, ok) {
+        if(err){
+          consumerStart();
+        }
+      });
+
+      //ch.deleteQueue(first);
+      //ch.deleteQueue(second);
 
       // queue1 createsecond and bind queue, consume !!
-      ch.assertQueue(first, {durable:true, exclusive: false}, function(err, q) {
+      ch.assertQueue(first, {durable:true, exclusive:false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key
 
@@ -103,7 +115,7 @@ function consumerStart() {
       });
 
       // queue2 create and bind queue, consume !!
-      ch.assertQueue(second, {durable:true, exclusive: false}, function(err, q) {
+      ch.assertQueue(second, {durable:true, exclusive:false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         console.log("\n");
         var error_key = config.topics.error_key
