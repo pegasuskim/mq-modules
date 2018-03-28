@@ -143,12 +143,12 @@ function mqInitializing() {
 
         var topics_key = config.topics.topics_key        
         topics_key.forEach(function(key) {
-          ch.unbindQueue(q.queue, ex, key);
+          ch.unbindQueue(first, ex, key);
         });
 
         var error_key = config.topics.error_key
         error_key.forEach(function(key) {
-          ch.unbindQueue(q.queue, ex, key);
+          ch.unbindQueue(second, ex, key);
           });
       });
 
