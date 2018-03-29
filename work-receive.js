@@ -58,11 +58,11 @@ function consumerStart() {
         setTimeout(function() {
           console.log(" [x] Done");
           ch.ack(msg);
-        }, 1000);
+        }, 100);
       }, {noAck: false});
 
     });
-    
+
   });
 
 }
