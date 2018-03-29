@@ -46,7 +46,7 @@ RabbitMQ.prototype.publish = function(qname, data, callback) {
                 });
             },
             function assertQueue(channel, callback) {
-                channel.assertQueue(qname, {durable: true, exclusive: false}, function(error, ok) {
+                channel.assertQueue(qname, {durable:false, exclusive:false}, function(error, ok) {
                     callback( error, ok, channel );
                 });
             },

@@ -6,7 +6,7 @@ var config = require('./config')
 amqp.connect(config.pubsub.host, function(err, conn) {
   conn.createChannel(function(err, ch) {
     var q = config.work.name;
-    ch.assertQueue(q, {durable: true});
+    ch.assertQueue(q, {durable:false, exclusive:false});
     ch.prefetch(1);
 
     console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
