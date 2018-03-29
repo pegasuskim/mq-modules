@@ -46,6 +46,7 @@ RabbitMQ.prototype.publish = function(qname, data, callback) {
                 });
             },
             function assertQueue(channel, callback) {
+                // MQ Cluster assertQueue 설정: {durable:false, exclusive:false}
                 channel.assertQueue(qname, {durable:false, exclusive:false}, function(error, ok) {
                     callback( error, ok, channel );
                 });

@@ -1,6 +1,6 @@
 {
     "work": {
-        "host": "amqp://admin:admin@10.0.0.29:5672/",
+        "host": "amqp://admin:admin@127.0.0.1:5672/",
         "name": "testq",
         "port": 5672,
         "login": "admin",
@@ -11,7 +11,7 @@
         "vhost":"/"
     },
     "pubsub": {
-        "host": "amqp://admin:admin@10.0.0.29:5672/",
+        "host": "amqp://admin:admin@127.0.0.1:5672/",
         "exchanges":"test-ex",
         "firstq":"firstq",
         "secondq":"secondq",
@@ -24,7 +24,7 @@
         "vhost":"/"
     },
     "routing": {
-        "host": "amqp://admin:admin@10.0.0.29:5672/",
+        "host": "amqp://admin:admin@127.0.0.1:5672/",
         "exchanges":"routing-ex",
         "firstq":"dataq",
         "secondq":"errorq",
@@ -39,7 +39,7 @@
         "vhost":"/"
     },
     "topics": {
-        "host": "amqp://admin:admin@10.0.0.29:5672/",
+        "host": "amqp://admin:admin@127.0.0.1:5672/",
         "exchanges":"topic-ex",
         "firstq":"dataq",
         "secondq":"errorq",

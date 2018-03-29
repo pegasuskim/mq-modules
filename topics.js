@@ -69,6 +69,7 @@ RabbitMQ.prototype.publish = function(ex, data, callback) {
                 });
             },
             function assertExchange(channel, callback) {
+                // MQ Cluster assertExchange 설정: {durable:false, exclusive:false}
                 channel.assertExchange(ex, 'topic', {durable: false}, function(error, ok) {
                     callback( error, ok, channel );
                 });

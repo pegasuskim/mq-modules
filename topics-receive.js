@@ -79,10 +79,11 @@ function consumerStart() {
       var first = config.topics.firstq;
       var second = config.topics.secondq;
       var ex = config.topics.exchanges;
+      // MQ Cluster assertExchange 설정: {durable:false, exclusive:false}
       ch.assertExchange(ex, 'topic', {durable: false});
       
       // queue1 createsecond and bind queue, consume !!
-      // MQ Cluster 설정: {durable:false, exclusive:false}
+      // MQ Cluster assertQueue설정: {durable:false, exclusive:false}
       ch.assertQueue(first, {durable:false, exclusive:false}, function(err, q) {
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
         var topics_key = config.topics.topics_key

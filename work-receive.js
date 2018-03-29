@@ -50,9 +50,8 @@ function consumerStart() {
 
     conn.createChannel(function(err, ch) {      
       var q = config.work.name;
-      // MQ Cluster 설정: {durable:false, exclusive:false}
+      // MQ Cluster assertQueue 설정: {durable:false, exclusive:false}
       ch.assertQueue(q, {durable:false, exclusive:false});
-
       ch.prefetch(1);
 
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
