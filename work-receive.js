@@ -23,6 +23,7 @@ amqp.connect(config.pubsub.host, function(err, conn) {
 */
 
 function consumerStart() {
+
   amqp.connect(config.pubsub.host, function(err, conn) { 
     var reconnectTimeout = 1000;
     if (err) {
@@ -49,7 +50,9 @@ function consumerStart() {
 
     conn.createChannel(function(err, ch) {      
       var q = config.work.name;
+      // MQ Cluster 설정: {durable:false, exclusive:false}
       ch.assertQueue(q, {durable:false, exclusive:false});
+
       ch.prefetch(1);
 
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q);
